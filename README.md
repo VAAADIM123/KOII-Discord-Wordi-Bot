@@ -61,3 +61,7 @@ pip install py-cord
 * Statistics and tracking. Keep track of how well you do on average, and how many games you've played.
 * Hints. When stuck, the bot will remove some of the letters that aren't in the final word for you. 
 
+## Some screenshots
+![testbot console](https://github.com/VAAADIM123/Discord-Wordi-Bot/assets/96568482/f04ab38d-3f86-447e-990f-6ddac71f747c)
+![image](https://github.com/VAAADIM123/Discord-Wordi-Bot/assets/96568482/5111b5e6-6eb4-4567-9c8a-e168e8350c36)
+
