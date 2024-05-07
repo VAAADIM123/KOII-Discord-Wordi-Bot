@@ -112,17 +112,19 @@ def verifyPartyOpen(func):
 
 
 async def _validateWord(ctx, word, is_guess=True):
-    """Validates that a word is 5 letter words and in our dictionary."""
+    """Validates that a word is within the specified range and in our dictionary."""
     pref = "Guess" if is_guess else "Word"
-    if len(word) != 5:
-        msg = f"{pref} {word} invalid, needs to be 5 letters."
+    min_length = 3  # Минимальная длина слова
+    max_length = 10  # Максимальная длина слова
+    if len(word) < min_length or len(word) > max_length:
+        msg = f"{pref} {word} invalid, needs to be between {min_length} and {max_length} letters."
         if is_guess:
             await ctx.respond(msg)
         else:
             await ctx.author.send(msg)
         return False
     if word not in WORDS_SET:
-        msg = f"{pref} {word} invalid, needs to be real 5 letter word."
+        msg = f"{pref} {word} invalid, needs to be a real word."
         if is_guess:
             await ctx.respond(msg)
         else:
@@ -133,7 +135,6 @@ async def _validateWord(ctx, word, is_guess=True):
     else:
         await ctx.author.send(f"Your word was: {word}")
     return True
-
 
 @bot.slash_command(guild_ids=guild_ids)
 @verifyGameNotStarted
@@ -146,8 +147,7 @@ async def start(
     gid = ctx.guild.id
     if game_type == "collab":
         await ctx.respond("Starting collaborative game of Wordle...")
-        word = random.choice(CHOICE_WORDS)
-
+        word = random.choice(list(WORDS_SET))  # Выбор случайного слова из общего словаря
         host = ctx.me  # TODO: adjust to bot's name
         bot.addGame(gid, WordleGame(host, ctx.guild.name, ctx.channel.name, word))
         await ctx.send("Send in a guess. You have 6 guesses.")
@@ -155,7 +155,7 @@ async def start(
         await ctx.respond("Starting custom game of Wordle... Check your DMs!")
         host = ctx.author
         await ctx.author.send(
-            "What is your custom word? It must be five-letters and in our dictionary."
+            "What is your custom word? It must be between 3 and 10 letters and in our dictionary."
         )
 
         def check(m):
@@ -186,6 +186,7 @@ async def start(
         await ctx.respond(
             f"Invalid game type chosen. Choose either collab, custom, or battle."
         )
+
 
 
 @bot.slash_command(guild_ids=guild_ids)
