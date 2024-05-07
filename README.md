@@ -5,7 +5,7 @@
 </p>
 
 Discord Bot for playing wordle. You can either add my bot (which will be generally running 24/7 outside of bug fixes) or add your own. 
-
+07.05.24 updated to use random words lenght from 3 to 10(currently on test version in separate folder)
 
 
 ## How to play
